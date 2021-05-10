@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import ml from '@react-native-firebase/ml';
+import { StackNavigationProp } from '@react-navigation/stack';
 
 import {
   Container,
@@ -10,7 +10,19 @@ import {
   ShuttleAnimation,
 } from './styles';
 
-const CameraScreen = () => {
+interface PictureResponse {
+  uri: string;
+  height: number;
+  width: number;
+  exif?: object;
+  base64?: string;
+}
+
+interface Props {
+  navigation: StackNavigationProp<any, any>;
+}
+
+const CameraScreen: React.FC<Props> = ({ navigation }) => {
   const [hasPermission, setHasPermission] = useState<boolean>(false);
   const [isReady, setIsReady] = useState<boolean>(false);
   const cameraRef = useRef(null);
@@ -21,25 +33,15 @@ const CameraScreen = () => {
     setHasPermission(status === 'granted');
   };
 
-  const recognizeTextInImage = (localPath: string) => {
-    ml().cloudDocumentTextRecognizerProcessImage(localPath)
-      .then((processed) => {
-        console.log('Found text in document: ', processed.text);
-
-        processed.blocks.forEach((block) => {
-          console.log('Found block with text: ', block.text);
-          console.log('Confidence in block: ', block.confidence);
-          console.log('Languages found in block: ', block.recognizedLanguages);
-        });
-      }).catch((error) => console.log(error));
-  };
-
-  const takePicture = async () => {
+  const takePicture = () => {
     if (isReady) {
       animationRef.current.play();
-      const picture = await cameraRef.current.takePictureAsync();
 
-      // recognizeTextInImage(picture.uri);
+      cameraRef.current.takePictureAsync()
+        .then(({ uri }: PictureResponse) => {
+          navigation.navigate('Result', { uri });
+        })
+        .catch(() => alert('Error taking picture'));
     } else {
       alert('Camera is no ready!');
     }
@@ -55,7 +57,7 @@ const CameraScreen = () => {
         hasPermission ? (
           <Camera
             ref={cameraRef}
-            type={Camera.Constants.Type.back}
+            type={Camera.Constants.Type.front}
             ratio="16:9"
             onCameraReady={() => setIsReady(true)}
           >
