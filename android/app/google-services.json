@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "564244807419",
+    "project_id": "pokedex-7f2e0",
+    "storage_bucket": "pokedex-7f2e0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:564244807419:android:09035a6e02a34139ae7a5e",
+        "android_client_info": {
+          "package_name": "com.imagerecognition"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "564244807419-hh6rhklkqnugrnfe74htfsens86v5ics.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_52fez6mtpVwQkAP6LvECYRpvdxo3wWM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "564244807419-hh6rhklkqnugrnfe74htfsens86v5ics.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
