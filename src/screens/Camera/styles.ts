@@ -39,6 +39,5 @@ export const ShuttleAnimation = styled(LottieView).attrs({
 export const TakePictureButton = styled.Pressable`
   height: 100px;
   width: 100px;
-  background-color: red;
   border-radius: 50px;
 `;

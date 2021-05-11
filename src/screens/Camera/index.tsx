@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { StackNavigationProp } from '@react-navigation/stack';
 
+import { ActivityIndicator } from 'react-native';
 import {
   Container,
   CustomText,
@@ -39,7 +40,7 @@ const CameraScreen: React.FC<Props> = ({ navigation }) => {
 
       cameraRef.current.takePictureAsync()
         .then(({ uri }: PictureResponse) => {
-          navigation.navigate('Result', { uri });
+          navigation.navigate('Result', { imageUri: uri });
         })
         .catch(() => alert('Error taking picture'));
     } else {
@@ -57,7 +58,7 @@ const CameraScreen: React.FC<Props> = ({ navigation }) => {
         hasPermission ? (
           <Camera
             ref={cameraRef}
-            type={Camera.Constants.Type.front}
+            type={Camera.Constants.Type.back}
             ratio="16:9"
             onCameraReady={() => setIsReady(true)}
           >
@@ -73,9 +74,7 @@ const CameraScreen: React.FC<Props> = ({ navigation }) => {
             </ControlsWrapper>
           </Camera>
         ) : (
-          <CustomText>
-            No permition to access camera
-          </CustomText>
+          <ActivityIndicator size="large" color="#fff" />
         )
       }
     </Container>

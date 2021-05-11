@@ -1,29 +1,34 @@
-import React, { useEffect } from 'react';
-import { Text } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { ActivityIndicator, Text } from 'react-native';
 import ml from '@react-native-firebase/ml';
 
-// import { Container } from './styles';
+import { Container } from './styles';
 
 const Result: React.FC = ({ route }) => {
+  const [imageText, setImageText] = useState('');
+
   const recognizeTextInImage = (localPath: string) => {
     ml().cloudDocumentTextRecognizerProcessImage(localPath)
-      .then((processed) => {
-        console.log('Found text in document: ', processed.text);
-
-        processed.blocks.forEach((block) => {
-          console.log('Found block with text: ', block.text);
-          console.log('Confidence in block: ', block.confidence);
-          console.log('Languages found in block: ', block.recognizedLanguages);
-        });
+      .then(({ text }) => {
+        console.log('Found text in document: ', text);
+        setImageText(text);
       }).catch((error) => console.log(error));
   };
 
   useEffect(() => {
+    const { imageUri } = route.params;
 
+    recognizeTextInImage(imageUri);
   }, []);
 
   return (
-    <Text>teste</Text>
+    <Container>
+      {imageText.length > 0 ? (
+        <Text>{imageText}</Text>
+      ) : (
+        <ActivityIndicator size="large" color="#fff" />
+      )}
+    </Container>
   );
 };
 
